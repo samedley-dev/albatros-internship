@@ -222,6 +222,7 @@ holidays_df: DataFrame = pd.DataFrame(
         'ds': [pd.to_datetime(date) for date in holidays.financial_holidays('RU', years=[2023, 2024])]
     }
 )
+
 # preparing the train/test split
 train = weekly_sum.loc[:train_size - 1, :]
 test = weekly_sum.loc[train_size:, :]
