@@ -130,9 +130,7 @@ seasonal_change = {
 
 # creating a dictionary with the prognosis and 'forecasting'
 # by iterating through a for-loop
-weekly_prognosis = {
-    weekly_sum.loc[i, 'date']: weekly_sum.loc[i, target_var] for i in range(n)
-}
+weekly_prognosis = {weekly_sum.loc[i, 'date']: weekly_sum.loc[i, target_var] for i in range(n)}
 for i in range(train_size, n):
     prev_date = weekly_sum.loc[i - 1, 'date']
     curr_date = weekly_sum.loc[i, 'date']
