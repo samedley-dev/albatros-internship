@@ -106,7 +106,18 @@ def processed_df(filename):
 
 ### 4. Прогнозирование
 
-Прогнозирование будет совершаться понедельно. Фрагмент кода, устанавливающий, по какому датафрейму мы будем прогнозировать значения `target_var` -- нашей целевой переменной
+Прогнозирование будет совершаться понедельно. Фрагмент кода, устанавливающий, по какому датафрейму мы будем прогнозировать значения `target_var` - нашей целевой переменной:
+
+```python
+target_var = 'sales'  # the variable to be forecasted
+
+filepath = 'badminton.csv'
+df = processed_df(filepath)
+weekly_sum = df.groupby(pd.Grouper(key='date', freq='1W')).sum().reset_index()
+
+n = weekly_sum.shape[0]
+train_size = int(n * .75)
+```
 
 #### 4.1. Наивный метод
 
