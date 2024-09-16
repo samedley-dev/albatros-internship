@@ -19,7 +19,7 @@
 
 Фрагмент кода из файла `data_validation.py`, реализующий функцию `verify(df)` для установления валидности датасета:
 
-```
+```python
 def verify(df):
     n = df.shape[0]  # number of rows
     is_valid = True
@@ -46,7 +46,7 @@ def verify(df):
 
 Фрагмент кода из файла `data_plotting.py`, содержащий реализацию данной функции:
 
-```
+```python
 def visualize(*args, title=None, method=plt.plot):
     plt.figure(figsize=(10, 5))
     for (xData, yData, name) in args:
@@ -67,7 +67,7 @@ def visualize(*args, title=None, method=plt.plot):
 
 Ниже приведен код из файла `outlier_processing.py`, реализующий работу данной функции.
 
-```
+```python
 def processed_df(filename):
     df = prepare_df(filename)
 
