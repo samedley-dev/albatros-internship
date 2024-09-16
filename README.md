@@ -8,26 +8,17 @@
 
 ## Аналитика
 
-### 1. Валидация и оценка качества датасетов для построения прогнозов
+### 1. Валидация и оценка качества датасетов для построения прогнозов.
+
+Задача:
+* Проверить, нет ли дубликатов
+* Проверить, нет ли разрывов в данных, т.е. промежутков времени, о которых мы ничего не знаем.
+
+Для установления валидности датасета используется функция `verify` из файла data_validation.py.
+Фрагмент кода:
+
+
 ```
-import pandas as pd
-
-
-def prepare_df(filename):
-    df = pd.read_csv(filename)
-
-    # changing the names of the header columns
-    df.rename(
-        columns={'startDate': 'date', 'sellerMetric.value': 'sales', 'platformMetric.value': 'total_sales'},
-        inplace=True
-    )
-
-    # changing the elements of the date column to datetime
-    df.loc[:, 'date'] = pd.to_datetime(df.loc[:, 'date'])
-
-    return df
-
-
 def verify(df):
     n = df.shape[0]  # the number of rows
     is_valid = True
