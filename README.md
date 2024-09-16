@@ -150,4 +150,29 @@ naive_df.to_csv('naive_forecast.csv')
 
 #### 4.2. SARIMA
 
+Фрагмент из файла `sarima_forecast.py`, реализующий прогнозирование продаж моделью Seasonal ARIMA.
+
+```python
+# getting rid of the target_variable
+weekly_sum.drop(
+    columns=[col for col in ['sales', 'total_sales'] if col != target_var],
+    inplace=True
+)
+
+# preparing the train/test split
+train = weekly_sum.loc[:train_size - 1, :]
+test = weekly_sum.loc[train_size:, :]
+
+# training the model and forecasting values
+model = sm.tsa.statespace.SARIMAX(np.log(train[target_var]), order=(1, 1, 1),
+                                  seasonal_order=(0, 1, 0, 52)).fit(disp=True)
+sarima_forecast = np.exp(
+    model.predict(start=train.shape[0], end=weekly_sum.shape[0] - 1)
+)
+
+# creating and saving a dataframe storing values from sarima_forecast
+sarima_df = pd.DataFrame(data=list(sarima_forecast), columns=['value'])
+sarima_df.to_csv('sarima_forecast.csv')
+```
+
 #### 4.3. Facebook Prophet
