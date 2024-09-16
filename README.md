@@ -37,3 +37,22 @@ def verify(df):
 
     return is_valid
 ```
+
+### 2. Визуализация данных.
+
+Для упрощения процесса визуализации данных была реализована функция `visualize(*args, title=None, method=plt.plot)`, способная выводить графики нескольких наборов данных (`*args`) на ондой фигуре, под названием `title`, построенных при помощи указанного метода `method`, по умолчанию равного `matplotlib.pyplot.plot`. Фрагмент кода из файла `data_plotting.py`, содержащий реализацию данной функции:
+
+```
+def visualize(*args, title=None, method=plt.plot):
+    plt.figure(figsize=(10, 5))
+    for (xData, yData, name) in args:
+        method(xData, yData, label=name)
+
+    plt.title(title)
+    plt.xlabel('Date')
+    plt.ylabel('Value')
+    plt.xticks(rotation=45)
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.show()
+```
