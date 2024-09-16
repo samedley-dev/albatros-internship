@@ -106,20 +106,13 @@ def processed_df(filename):
 
 ### 4. Прогнозирование
 
+Прогнозирование будет совершаться понедельно. Фрагмент кода, устанавливающий, по какому датафрейму мы будем прогнозировать значения `target_var` -- нашей целевой переменной
+
 #### 4.1. Наивный метод
 
 Предполагаем, что в этом году сумма продаж на текущей неделе будет относиться к сумме продаж на предыдущей неделе точно так же, как в прошлом году. На этом строим прогноз. Фрагмент кода из файла `naive_forecast.py` приведен ниже.
 
 ```python
-target_var = 'sales'  # the variable to be forecasted
-
-filepath = 'badminton.csv'
-df = processed_df(filepath)
-weekly_sum = df.groupby(pd.Grouper(key='date', freq='1W')).sum().reset_index()
-
-n = weekly_sum.shape[0]
-train_size = int(n * .75)
-
 # preparing a dictionary containing seasonal coefficients
 st = [x.week for x in weekly_sum.loc[:, 'date']].index(1)
 fn = st + [x.week for x in weekly_sum.loc[st:, 'date']].index(52)
@@ -136,7 +129,12 @@ for i in range(train_size, n):
     curr_date = weekly_sum.loc[i, 'date']
     j = curr_date.week  # j - the week of the current date
     weekly_prognosis[curr_date] = weekly_prognosis[prev_date] * seasonal_change[j]
+
 naive_forecast = list(weekly_prognosis.values())[train_size:]
+
+# creating and saving a dataframe storing values from naive_forecast
+naive_df = pd.DataFrame(data=naive_forecast, columns=['value'])
+naive_df.to_csv('naive_forecast.csv')
 ```
 
 #### 4.2. SARIMA
