@@ -108,6 +108,31 @@ def processed_df(filename):
 
 #### 4.1. Наивный метод
 
+Предполагаем, что в этом году сумма продаж на текущей неделе будет относиться к сумме продаж на предыдущей неделе точно так же, как в прошлом году. На этом строим прогноз на последние полгода. Фрагмент кода из файла `naive_forecast.py` приведен ниже.
+
+```python
+# preparing a dictionary containing seasonal coefficients
+st = [x.week for x in weekly_sum.loc[:, 'date']].index(1)
+fn = st + [x.week for x in weekly_sum.loc[st:, 'date']].index(52)
+seasonal_change = {
+    weekly_sum.loc[i, 'date'].week: weekly_sum.loc[i, target_var] / weekly_sum.loc[i - 1, target_var]
+    for i in range(st, fn + 1)
+}
+
+# creating a dictionary with the prognosis and 'forecasting'
+# by iterating through a for-loop
+weekly_prognosis = {
+weekly_sum.loc[i, 'date']: weekly_sum.loc[i, target_var] for i in range(n)
+}
+for i in range(train_size, n):
+    prev_date = weekly_sum.loc[i - 1, 'date']
+    curr_date = weekly_sum.loc[i, 'date']
+    j = curr_date.week  # j - the week of the current date
+    weekly_prognosis[curr_date] = weekly_prognosis[prev_date] * seasonal_change[j]
+
+naive_forecast = list(weekly_prognosis.values())[train_size:]
+```
+
 #### 4.2. SARIMA
 
 #### 4.3. Facebook Prophet
