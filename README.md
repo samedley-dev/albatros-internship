@@ -283,8 +283,9 @@ comparison_df = pd.DataFrame(
     }
 )
 
-comparison_df = comparison_df.map(lambda x: f'{x:.3f}' if not isinstance(x, str) else x).set_index('Metric')
-
+comparison_df = comparison_df.map(
+    lambda x: f'{x:.3f}' if not isinstance(x, str) else x
+).set_index('Metric')
 ```
 
 Используя данную таблицу, мы подобрали модель, отличившуюся точностью своих прогнозов больше других, - Facebook Prophet.
