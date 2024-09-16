@@ -44,7 +44,7 @@ def verify(df):
 
 Для упрощения визуализации данных была реализована функция `visualize(*args, title=None, method=plt.plot)`.
 
-Фрагмент кода из файла `data_plotting.py`, содержащий реализацию данной функции:
+Фрагмент кода из файла `data_plotting.py`, реализующий данную функцию:
 
 ```python
 def visualize(*args, title=None, method=plt.plot):
