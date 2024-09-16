@@ -254,7 +254,7 @@ prophet_df.to_csv('prophet_forecast.csv')
 
 Реализовано это было в коде программы `model_comparison.py`, фрагмент из которой приведен ниже.
 
-```
+```python
 naive_forecast = list(pd.read_csv('naive_forecast.csv')['value'])
 sarima_forecast = list(pd.read_csv('sarima_forecast.csv')['value'])
 prophet_forecast = list(pd.read_csv('prophet_forecast.csv')['value'])
