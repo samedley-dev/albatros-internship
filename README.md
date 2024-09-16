@@ -103,3 +103,11 @@ def processed_df(filename):
 
     return df
 ```
+
+### 4. Прогнозирование
+
+#### 4.1. Наивные метод
+
+#### 4.2. SARIMA
+
+#### 4.3. Facebook Prophet
