@@ -7,7 +7,7 @@
 
 Кроме того, я был задействован в анализе трендов и выявлении паттернов в данных, что способствовало улучшению прогностических моделей. В рамках команды мы занимались визуализацией результатов анализа, подготовкой отчетов и автоматизацией процессов обработки данных и прогнозирования. Важным аспектом нашей работы было взаимодействие с другими отделами для интеграции данных, а также адаптация моделей к изменениям рыночной среды.
 
-## Аналитика
+## Рабочий процесс
 
 ### 1. Оценка качества датасетов для построения прогнозов
 
@@ -243,4 +243,46 @@ prophet_forecast = model.predict(test)
 # creating and saving a dataframe storing values from prophet_forecast
 prophet_df = pd.DataFrame(data=list(prophet_forecast['yhat']), columns=['value'])
 prophet_df.to_csv('prophet_forecast.csv')
+```
+
+## 5. Сравнение моделей
+
+Итогом нашей работы было сравнение моделей прогнозирования по трем метрикам:
+* Mean Absolute Error,
+* Root-Mean-Square Error,
+* Mean Absolute Percentage Error.
+
+Реализовано это было в коде программы `model_comparison.py`, фрагмент из которой приведен ниже.
+
+```
+naive_forecast = list(pd.read_csv('naive_forecast.csv')['value'])
+sarima_forecast = list(pd.read_csv('sarima_forecast.csv')['value'])
+prophet_forecast = list(pd.read_csv('prophet_forecast.csv')['value'])
+
+comparison_df = pd.DataFrame(
+    {
+        'Metric': ['Root MSE', 'MAE', 'MAPE, %'],
+
+        'Naive': [
+            np.sqrt(mse(weekly_sum.loc[train_size:, target_var], naive_forecast)),
+            mae(weekly_sum.loc[train_size:, target_var], naive_forecast),
+            100 * mape(weekly_sum.loc[train_size:, target_var], naive_forecast)
+        ],
+
+        'SARIMA': [
+            np.sqrt(mse(weekly_sum.loc[train_size:, target_var], sarima_forecast)),
+            mae(weekly_sum.loc[train_size:, target_var], sarima_forecast),
+            100 * mape(weekly_sum.loc[train_size:, target_var], sarima_forecast)
+        ],
+
+        'FB Prophet': [
+            np.sqrt(mse(weekly_sum.loc[train_size:, target_var], prophet_forecast)),
+            mae(weekly_sum.loc[train_size:, target_var], prophet_forecast),
+            100 * mape(weekly_sum.loc[train_size:, target_var], prophet_forecast)
+        ]
+    }
+)
+
+comparison_df = comparison_df.map(lambda x: f'{x:.3f}' if not isinstance(x, str) else x).set_index('Metric')
+
 ```
