@@ -201,7 +201,7 @@ def objective(args):
     return params_evaluated, results
 ```
 
-Фрагмент из файла `prophet_forecast.py`, реализующий прогнозирование продаж модели Facebook Prophet с оптимизированными гиперпараметрами (при помощи байесовской оптимизации, реализованной методом `mango.Tuner().minimizer()`, приведен ниже.
+Фрагмент из файла `prophet_forecast.py`, реализующий прогнозирование продаж модели Facebook Prophet с оптимизированными гиперпараметрами (при помощи байесовской оптимизации, реализованной методом `mango.Tuner().minimizer())`, приведен ниже.
 
 ```python
 # getting rid of the target variable
